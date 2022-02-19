@@ -38,14 +38,14 @@ class OutcomeSamplingSolver(mccfr.MCCFRSolverBase):
         "on a simultaneous (or normal-form) game, please first transform it " +
         "using turn_based_simultaneous_game.")
 
-  def iteration(self):
+  def iteration(self,state):
     """Performs one iteration of outcome sampling.
 
     An iteration consists of one episode for each player as the update
     player.
     """
     for update_player in range(self._num_players):
-      state = self._game.new_initial_state()
+      state = self._game.new_initial_state(str(state))
       self._episode(
           state, update_player, my_reach=1.0, opp_reach=1.0, sample_reach=1.0)
 
@@ -100,6 +100,11 @@ class OutcomeSamplingSolver(mccfr.MCCFRSolverBase):
       sample_policy = self._expl * uniform_policy + (1.0 - self._expl) * policy
     else:
       sample_policy = policy
+    if np.isnan(np.sum(sample_policy)):
+        print('ERROR: policy has nan: {}'.format(sample_policy))
+        print('num_legal_actions: {}'.format(num_legal_actions))
+        print('legal_actions: {}'.format(legal_actions))
+        input('Press any key to exit.')
     sampled_aidx = np.random.choice(range(num_legal_actions), p=sample_policy)
     state.apply_action(legal_actions[sampled_aidx])
     if cur_player == update_player:
