@@ -38,6 +38,9 @@ import os
 import random
 import numpy as np
 import tensorflow as tf
+from open_spiel.python.algorithms import outcome_sampling_mccfr as outcome_mccfr
+import sys
+sys.setrecursionlimit(10000)
 
 from open_spiel.python import policy
 import pyspiel
@@ -569,8 +572,13 @@ class DeepCFRSolver(policy.Policy):
       _, strategy = self._sample_action_from_advantage(state, player)
       exp_payoff = 0 * strategy
       for action in state.legal_actions():
-        exp_payoff[action] = self._traverse_game_tree(
-            state.child(action), player)
+        gameVar = pyspiel.load_game('yorktown')
+        cfr_solver = outcome_mccfr.OutcomeSamplingSolver(gameVar)
+        for i in range(1000):
+          ev = cfr_solver.iteration(state.child(action))
+        exp_payoff[action] = ev
+        #exp_payoff[action] = self._traverse_game_tree(
+        #    state.child(action), player)
       ev = np.sum(exp_payoff * strategy)
       samp_regret = (exp_payoff - ev) * state.legal_actions_mask(player)
       self._advantage_memories[player].add(
