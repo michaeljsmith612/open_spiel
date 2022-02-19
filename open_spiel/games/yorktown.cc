@@ -431,7 +431,7 @@ absl::optional<std::vector<double>> YorktownState::MaybeFinalReturns() const {
   }
 
   // Restricts the number of possible plys until it is called a draw. 
-  if(Board().Movenumber() > 3000){
+  if(Board().Movenumber() > 1600){
     return std::vector<double>{DrawUtility(), DrawUtility()};
   }
 
@@ -441,7 +441,7 @@ absl::optional<std::vector<double>> YorktownState::MaybeFinalReturns() const {
 
 int YorktownGame::MaxGameLength() const {
   // I do not have any clue how to calculate this. 
-  return 3000;
+  return 1600;
 }
 
 YorktownGame::YorktownGame(const GameParameters& params) : Game(kGameType, params) {}

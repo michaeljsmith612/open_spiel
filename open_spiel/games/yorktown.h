@@ -46,7 +46,8 @@ inline constexpr int kNumActionDestinations = 36;
 inline constexpr int kNumDistinctActions = 3600;
 
 // A possible starting position which is used if no other position is specified
-inline constexpr char* kInitPos = "FEBMBEFEEFBGIBHIBEDBGJDDDHCGJGDHDLIFKDDHAA__AA__AAAA__AA__AASTQQNSQPTSUPWPVRPXPURNQONNQSNVPTNQRRTYUP r 0";
+inline constexpr char* kInitPos = "GEBBBFEGEBDGEFIDHEBMIDJDDDKLJBDIHGDFHCFHAA__AA__AAAA__AA__AATROTUPSTRPNVXWPPPVPUYNQTPURQSPNQSQRNNNQS r 0";
+//FEBMBEFEEFBGIBHIBEDBGJDDDHCGJGDHDLIFKDDHAA__AA__AAAA__AA__AASTQQNSQPTSUPWPVRPXPURNQONNQSNVPTNQRRTYUP r 0
 
 // The shape of the InformationStateTensor
 inline const std::vector<int>& InformationStateTensorShape() {
