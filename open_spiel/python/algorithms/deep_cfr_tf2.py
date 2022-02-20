@@ -437,6 +437,7 @@ class DeepCFRSolver(policy.Policy):
           self._memories_tfrecordfile = stack.enter_context(
               tf.io.TFRecordWriter(self._memories_tfrecordpath))
         for _ in range(self._num_iterations):
+          print('iteration: {}'.format(_))
           for p in range(self._num_players):
             for _ in range(self._num_traversals):
               self._traverse_game_tree(self._root_node, p)
@@ -574,11 +575,12 @@ class DeepCFRSolver(policy.Policy):
       for action in state.legal_actions():
         gameVar = pyspiel.load_game('yorktown')
         cfr_solver = outcome_mccfr.OutcomeSamplingSolver(gameVar)
-        for i in range(1000):
+        for i in range(10):
           ev = cfr_solver.iteration(state.child(action))
         exp_payoff[action] = ev
         #exp_payoff[action] = self._traverse_game_tree(
         #    state.child(action), player)
+      print('finished traversal')
       ev = np.sum(exp_payoff * strategy)
       samp_regret = (exp_payoff - ev) * state.legal_actions_mask(player)
       self._advantage_memories[player].add(

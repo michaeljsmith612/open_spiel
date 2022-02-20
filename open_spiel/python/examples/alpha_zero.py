@@ -21,10 +21,12 @@ from absl import flags
 from open_spiel.python.algorithms.alpha_zero import alpha_zero
 from open_spiel.python.algorithms.alpha_zero import model as model_lib
 from open_spiel.python.utils import spawn
+import sys
+sys.setrecursionlimit(10000)
 
-flags.DEFINE_string("game", "connect_four", "Name of the game.")
+flags.DEFINE_string("game", "yorktown", "Name of the game.")
 flags.DEFINE_integer("uct_c", 2, "UCT's exploration constant.")
-flags.DEFINE_integer("max_simulations", 300, "How many simulations to run.")
+flags.DEFINE_integer("max_simulations", 100, "How many simulations to run.")
 flags.DEFINE_integer("train_batch_size", 2 ** 10, "Batch size for learning.")
 flags.DEFINE_integer("replay_buffer_size", 2 ** 16,
                      "How many states to store in the replay buffer.")
@@ -42,8 +44,8 @@ flags.DEFINE_enum("nn_model", "resnet", model_lib.Model.valid_model_types,
                   "What type of model should be used?.")
 flags.DEFINE_integer("nn_width", 2 ** 7, "How wide should the network be.")
 flags.DEFINE_integer("nn_depth", 10, "How deep should the network be.")
-flags.DEFINE_string("path", None, "Where to save checkpoints.")
-flags.DEFINE_integer("checkpoint_freq", 100, "Save a checkpoint every N steps.")
+flags.DEFINE_string("path", "/home/jovyan/work/open_spiel/azCP_yorktown", "Where to save checkpoints.")
+flags.DEFINE_integer("checkpoint_freq", 1, "Save a checkpoint every N steps.")
 flags.DEFINE_integer("actors", 2, "How many actors to run.")
 flags.DEFINE_integer("evaluators", 1, "How many evaluators to run.")
 flags.DEFINE_integer("evaluation_window", 100,

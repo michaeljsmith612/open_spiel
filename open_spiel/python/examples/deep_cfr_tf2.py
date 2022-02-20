@@ -27,12 +27,13 @@ from open_spiel.python.algorithms import deep_cfr_tf2
 from open_spiel.python.algorithms import expected_game_score
 from open_spiel.python.algorithms import exploitability
 import pyspiel
+import dill
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_integer("num_iterations", 100, "Number of iterations")
-flags.DEFINE_integer("num_traversals", 150, "Number of traversals/games")
-flags.DEFINE_string("game_name", "leduc_poker", "Name of the game")
+flags.DEFINE_integer("num_iterations", 2, "Number of iterations")
+flags.DEFINE_integer("num_traversals", 2, "Number of traversals/games")
+flags.DEFINE_string("game_name", "yorktown", "Name of the game")
 
 
 def main(unused_argv):
@@ -51,9 +52,14 @@ def main(unused_argv):
       policy_network_train_steps=5000,
       advantage_network_train_steps=500,
       reinitialize_advantage_networks=True,
-      infer_device="cpu",
-      train_device="cpu")
+      infer_device="/GPU:0",
+      train_device="/GPU:0")
   _, advantage_losses, policy_loss = deep_cfr_solver.solve()
+  MODEL_FILE_NAME = "yorktown_deep_cfr_solver"
+  with open(MODEL_FILE_NAME, "wb") as dill_file:
+    dill.dump(deep_cfr_solver, dill_file)
+  with open(MODEL_FILE_NAME, "rb") as dill_file:
+    deep_cfr_solver_loaded = dill.load(open_file)
   for player, losses in advantage_losses.items():
     logging.info("Advantage for player %d: %s", player,
                  losses[:2] + ["..."] + losses[-2:])

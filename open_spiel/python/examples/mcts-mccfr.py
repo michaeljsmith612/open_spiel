@@ -72,7 +72,7 @@ flags.DEFINE_string("az_path", None,
 flags.DEFINE_integer("uct_c", 2, "UCT's exploration constant.")
 flags.DEFINE_integer("rollout_count", 1, "How many rollouts to do.")
 flags.DEFINE_integer("max_simulations", 1000, "How many simulations to run.")
-flags.DEFINE_integer("num_games", 1, "How many games to play.")
+flags.DEFINE_integer("num_games", 100, "How many games to play.")
 flags.DEFINE_integer("seed", None, "Seed for the random number generator.")
 flags.DEFINE_bool("random_first", False, "Play the first move randomly.")
 flags.DEFINE_bool("solve", True, "Whether to use MCTS-Solver.")
@@ -125,15 +125,16 @@ def _init_bot(bot_type, game, player_id):
     #train the cfr policy
     gameVar = pyspiel.load_game('yorktown')
     state = gameVar.new_initial_state()
-    cfr_solver = outcome_mccfr.OutcomeSamplingSolver(gameVar)
-    for i in range(1000):
-        cfr_solver.iteration(state)
-    #MODEL_FILE_NAME = "yorktown_mccfr_solver1000.pickle"
-    #with open(MODEL_FILE_NAME, "rb") as file:
-    #    loaded_solver = pickle.load(file)
+    #cfr_solver = outcome_mccfr.OutcomeSamplingSolver(gameVar)
+    #for i in range(100000):
+    #    print(i)
+    #    cfr_solver.iteration(state)
+    #MODEL_FILE_NAME = "yorktown_mccfr_solver.pickle"
+    with open("yorktown_mccfr_solver100000.pickle", "rb") as file:
+        loaded_solver = pickle.load(file)
     #with open(MODEL_FILE_NAME, "wb") as file:
     #    pickle.dump(cfr_solver, file, pickle.HIGHEST_PROTOCOL)
-    return policy.PolicyBot(player_id, rng, cfr_solver.average_policy())
+    return policy.PolicyBot(player_id, rng, loaded_solver.average_policy())
   raise ValueError("Invalid bot type: %s" % bot_type)
 
 def _get_action(state, action_str):
@@ -185,15 +186,15 @@ def _play_game(game, bots, initial_actions):
     else:
       # Decision node: sample action for the single current player
       bot = bots[current_player]
-      if current_player == 0:
-        cfr_solver = outcome_mccfr.OutcomeSamplingSolver(game)
-        for i in range(1000):
-            cfr_solver.iteration(state)
-        rng = np.random.RandomState(FLAGS.seed)
-        action = policy.PolicyBot(0, rng, cfr_solver.average_policy()).step(state)
-        #action = bot.step(state)
-      else:
-        action = bot.step(state)
+      #if current_player == 0:
+      #  cfr_solver = outcome_mccfr.OutcomeSamplingSolver(game)
+      #  for i in range(1000):
+      #      cfr_solver.iteration(state)
+      #  rng = np.random.RandomState(FLAGS.seed)
+      #  action = policy.PolicyBot(0, rng, cfr_solver.average_policy()).step(state)
+      #  #action = bot.step(state)
+      #else:
+      action = bot.step(state)
       action_str = state.action_to_string(current_player, action)
       _opt_print("Player {} sampled action: {}".format(current_player,
                                                        action_str))

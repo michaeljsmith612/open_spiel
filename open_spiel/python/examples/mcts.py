@@ -54,12 +54,12 @@ _KNOWN_PLAYERS = [
     "az"
 ]
 
-flags.DEFINE_string("game", "tic_tac_toe", "Name of the game.")
-flags.DEFINE_enum("player1", "mcts", _KNOWN_PLAYERS, "Who controls player 1.")
+flags.DEFINE_string("game", "connect_four", "Name of the game.")
+flags.DEFINE_enum("player1", "az", _KNOWN_PLAYERS, "Who controls player 1.")
 flags.DEFINE_enum("player2", "random", _KNOWN_PLAYERS, "Who controls player 2.")
 flags.DEFINE_string("gtp_path", None, "Where to find a binary for gtp.")
 flags.DEFINE_multi_string("gtp_cmd", [], "GTP commands to run at init.")
-flags.DEFINE_string("az_path", None,
+flags.DEFINE_string("az_path", "/home/jovyan/work/open_spiel/azCheckpoints/checkpoint--1",
                     "Path to an alpha_zero checkpoint. Needed by an az player.")
 flags.DEFINE_integer("uct_c", 2, "UCT's exploration constant.")
 flags.DEFINE_integer("rollout_count", 1, "How many rollouts to do.")
