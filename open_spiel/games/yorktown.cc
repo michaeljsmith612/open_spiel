@@ -41,9 +41,9 @@ const GameType kGameType{/*short_name=*/"yorktown",
                          /*max_num_players=*/2,
                          /*min_num_players=*/2,
                          /*provides_information_state_string=*/true,
-                         /*provides_information_state_tensor=*/true,
-                         /*provides_observation_string=*/false,
-                         /*provides_observation_tensor=*/false,
+                         /*provides_information_state_tensor=*/false,
+                         /*provides_observation_string=*/true,
+                         /*provides_observation_tensor=*/true,
                          /*parameter_specification=*/
                          {{"players", GameParameter(NumPlayers())},
                          {"strados3", GameParameter(kInitPos)}}};
@@ -336,20 +336,37 @@ std::vector<double> YorktownState::Returns() const {
   }
 }
 
-// Returns a string representation of the current information state from the perspective of the given player
 std::string YorktownState::InformationStateString(Player player) const {
+  SPIEL_CHECK_GE(player, 0);
+  SPIEL_CHECK_LT(player, num_players_);
+  return HistoryString();
+}
+
+
+// Returns a string representation of the current information state from the perspective of the given player
+std::string YorktownState::ObservationString(Player player) const {
   SPIEL_CHECK_GE(player, 0);
   SPIEL_CHECK_LT(player, num_players_);
   return Board().ToStraDos3(PlayerToColor(player));
 }
 
+
+
+
+// Returns a string representation of the current information state from the perspective of the given player
+//std::string YorktownState::InformationStateString(Player player) const {
+//  SPIEL_CHECK_GE(player, 0);
+//  SPIEL_CHECK_LT(player, num_players_);
+//  return Board().ToStraDos3(PlayerToColor(player));
+//}
+
 // Saves the information state tensor from the perspective of the given player at the given postition (values)
-void YorktownState::InformationStateTensor(Player player,
+void YorktownState::ObservationTensor(Player player,
                                    absl::Span<float> values) const {
- 
+
   auto value_it = values.begin();
 
-  /* This lines add perfect information planes for each piece type per player. 
+  /* This lines add perfect information planes for each piece type per player.
   * for (const auto& piece_type : kPieceTypes) {
   *   AddPieceTypePlane(Color::kRed, player, piece_type, Board(), value_it);
   *   AddPieceTypePlane(Color::kBlue, player, piece_type, Board(), value_it);
@@ -364,15 +381,46 @@ void YorktownState::InformationStateTensor(Player player,
 
   AddUnknownPlane(Color::kRed, Board(), value_it);
   AddUnknownPlane(Color::kBlue, Board(), value_it);
-  
+
   AddPieceTypePlane(Color::kEmpty, player, PieceType::kEmpty, Board(), value_it);
   AddPieceTypePlane(Color::kEmpty, player, PieceType::kLake, Board(), value_it);
- 
- 
+
+
   // Side to play.
   AddScalarPlane(ColorToPlayer(Board().ToPlay()), 0, 1, value_it);
- 
+
 }
+
+// Saves the information state tensor from the perspective of the given player at the given postition (values)
+//void YorktownState::InformationStateTensor(Player player,
+//                                   absl::Span<float> values) const {
+//
+// auto value_it = values.begin();
+//
+//  /* This lines add perfect information planes for each piece type per player.
+//  * for (const auto& piece_type : kPieceTypes) {
+//  *   AddPieceTypePlane(Color::kRed, player, piece_type, Board(), value_it);
+//  *   AddPieceTypePlane(Color::kBlue, player, piece_type, Board(), value_it);
+//  * }
+//  */
+//
+//  // Piece configuration with probability representation
+//  for (const auto& piece_type : kPieceTypes) {
+//    AddProbabilityPieceTypePlane(Color::kRed, player, piece_type, Board(), value_it);
+//    AddProbabilityPieceTypePlane(Color::kBlue, player, piece_type, Board(), value_it);
+//  }
+//
+//  AddUnknownPlane(Color::kRed, Board(), value_it);
+// AddUnknownPlane(Color::kBlue, Board(), value_it);
+//
+//  AddPieceTypePlane(Color::kEmpty, player, PieceType::kEmpty, Board(), value_it);
+//  AddPieceTypePlane(Color::kEmpty, player, PieceType::kLake, Board(), value_it);
+//
+//
+//  // Side to play.
+//  AddScalarPlane(ColorToPlayer(Board().ToPlay()), 0, 1, value_it);
+//
+//}
 
 // Clones the current YorktownState and returns a unique pointer to the cloned state object.
 std::unique_ptr<State> YorktownState::Clone() const {
