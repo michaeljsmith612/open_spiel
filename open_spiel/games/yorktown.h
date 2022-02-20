@@ -50,7 +50,16 @@ inline constexpr char* kInitPos = "GEBBBFEGEBDGEFIDHEBMIDJDDDKLJBDIHGDFHCFHAA__A
 //FEBMBEFEEFBGIBHIBEDBGJDDDHCGJGDHDLIFKDDHAA__AA__AAAA__AA__AASTQQNSQPTSUPWPVRPXPURNQONNQSNVPTNQRRTYUP r 0
 
 // The shape of the InformationStateTensor
-inline const std::vector<int>& InformationStateTensorShape() {
+//inline const std::vector<int>& InformationStateTensorShape() {
+//  static std::vector<int> shape{
+//      28 /* piece types (12) * colours + empty field + lakes + unknown* colors*/ +
+//          1 /* side to move */ ,
+//      BoardSize(), BoardSize()};
+//  return shape;
+//}
+
+// The shape of the InformationStateTensor
+inline const std::vector<int>& ObservationTensorShape() {
   static std::vector<int> shape{
       28 /* piece types (12) * colours + empty field + lakes + unknown* colors*/ +
           1 /* side to move */ ,
@@ -149,8 +158,12 @@ class YorktownState : public State {
 
    // The InformationState and Observationtensors return the current State in form of 
   // planes 
-  void InformationStateTensor(Player player,
-                              absl::Span<float> values) const override;
+//  void InformationStateTensor(Player player,
+//                              absl::Span<float> values) const override;
+
+  std::string ObservationString(Player player) const override;
+  void ObservationTensor(Player player,
+                         absl::Span<float> values) const override;
  
   // A method to clone the current state
   std::unique_ptr<State> Clone() const override;
@@ -230,10 +243,13 @@ class YorktownGame : public Game {
   double UtilitySum() const override { return DrawUtility(); }
   double MaxUtility() const override { return WinUtility(); }
   
-  std::vector<int> InformationStateTensorShape() const override {
-    return yorktown::InformationStateTensorShape();
+//  std::vector<int> InformationStateTensorShape() const override {
+//    return yorktown::InformationStateTensorShape();
+//  }
+
+  std::vector<int> ObservationTensorShape() const override {
+    return yorktown::ObservationTensorShape();
   }
-  
   
 
   int MaxGameLength() const override;
