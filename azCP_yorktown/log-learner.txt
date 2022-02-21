@@ -1,0 +1,17 @@
+[2022-02-21 01:08:45.470] learner started
+[2022-02-21 01:08:45.470] Initializing model
+[2022-02-21 01:08:50.267] Model type: resnet(128, 10)
+[2022-02-21 01:08:50.270] Model size: 5098074 variables
+[2022-02-21 01:08:50.874] Initial checkpoint: /home/jovyan/work/open_spiel/azCP_yorktown/checkpoint-0
+[2022-02-21 07:02:04.127] Step: 1
+[2022-02-21 07:02:04.127] Collected 22577 states from  18 games, 1.1 states/s. 0.5 states/(s*actor), game length: 1254.3
+[2022-02-21 07:02:04.127] Buffer size: 22577. States seen: 22577
+[2022-02-21 07:02:27.137] Losses(total: 3.941, policy: 2.865, value: 0.775, l2: 0.301)
+[2022-02-21 07:02:27.137] Checkpoint saved: /home/jovyan/work/open_spiel/azCP_yorktown/checkpoint-1
+[2022-02-21 07:02:27.139]
+[2022-02-21 13:12:25.925] Step: 2
+[2022-02-21 13:12:25.925] Collected 22485 states from  15 games, 1.0 states/s. 0.5 states/(s*actor), game length: 1499.0
+[2022-02-21 13:12:25.925] Buffer size: 45062. States seen: 45062
+[2022-02-21 13:13:03.953] Losses(total: 3.490, policy: 2.875, value: 0.336, l2: 0.280)
+[2022-02-21 13:13:03.954] Checkpoint saved: /home/jovyan/work/open_spiel/azCP_yorktown/checkpoint-2
+[2022-02-21 13:13:03.955]
