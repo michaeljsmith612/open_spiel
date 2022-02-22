@@ -1,5 +1,6 @@
-model_checkpoint_path: "/home/jovyan/work/open_spiel/azCP_yorktown/checkpoint-3"
+model_checkpoint_path: "/home/jovyan/work/open_spiel/azCP_yorktown/checkpoint-4"
 all_model_checkpoint_paths: "/home/jovyan/work/open_spiel/azCP_yorktown/checkpoint-0"
 all_model_checkpoint_paths: "/home/jovyan/work/open_spiel/azCP_yorktown/checkpoint-1"
 all_model_checkpoint_paths: "/home/jovyan/work/open_spiel/azCP_yorktown/checkpoint-2"
 all_model_checkpoint_paths: "/home/jovyan/work/open_spiel/azCP_yorktown/checkpoint-3"
+all_model_checkpoint_paths: "/home/jovyan/work/open_spiel/azCP_yorktown/checkpoint-4"

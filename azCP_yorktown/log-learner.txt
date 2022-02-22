@@ -21,3 +21,9 @@
 [2022-02-21 18:44:53.817] Losses(total: 3.275, policy: 2.885, value: 0.117, l2: 0.273)
 [2022-02-21 18:44:53.817] Checkpoint saved: /home/jovyan/work/open_spiel/azCP_yorktown/checkpoint-3
 [2022-02-21 18:44:53.818]
+[2022-02-22 00:16:49.975] Step: 4
+[2022-02-22 00:16:49.975] Collected 22369 states from  17 games, 1.1 states/s. 0.6 states/(s*actor), game length: 1315.8
+[2022-02-22 00:16:49.975] Buffer size: 65536. States seen: 89655
+[2022-02-22 00:17:40.379] Losses(total: 3.207, policy: 2.856, value: 0.087, l2: 0.265)
+[2022-02-22 00:17:40.379] Checkpoint saved: /home/jovyan/work/open_spiel/azCP_yorktown/checkpoint-4
+[2022-02-22 00:17:40.380]
