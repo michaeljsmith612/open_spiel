@@ -19,7 +19,7 @@ from __future__ import division
 from __future__ import print_function
 
 import pyspiel
-
+import numpy as np
 
 class PolicyBot(pyspiel.Bot):
   """Samples an action from action probabilities based on a policy.
@@ -67,8 +67,13 @@ class PolicyBot(pyspiel.Bot):
     action_list = list(policy.keys())
     if not any(action_list):
       return [], pyspiel.INVALID_ACTION
-
-    action = self._rng.choice(action_list, p=list(policy.values()))
+    if np.isnan(np.sum(policy.values())):
+      uniform_list = np.zeros(len(policy.values()))
+      for i in range(len(uniform_list)):
+        uniform_list[i] = 1/len(uniform_list)
+      action = self._rng.choice(action_list, p=list(uniform_list))
+    else:
+      action = self._rng.choice(action_list, p=list(policy.values()))
     return list(policy.items()), action
 
   def step(self, state):

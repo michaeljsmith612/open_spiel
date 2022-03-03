@@ -47,9 +47,8 @@ class OutcomeSamplingSolver(mccfr.MCCFRSolverBase):
     """
     for update_player in range(self._num_players):
       state = self._game.new_initial_state(str(state))
-      exVal =  self._episode(
+      self._episode(
           state, update_player, my_reach=1.0, opp_reach=1.0, sample_reach=1.0)
-    return exVal
 
   def _baseline(self, state, info_state, aidx):  # pylint: disable=unused-argument
     # Default to vanilla outcome sampling
@@ -103,15 +102,7 @@ class OutcomeSamplingSolver(mccfr.MCCFRSolverBase):
     else:
       sample_policy = policy
     if np.isnan(np.sum(sample_policy)):
-        global nanCounter
-        nanCounter = nanCounter + 1
-        print('ERROR: policy has nan: {}'.format(sample_policy))
-        print('num_legal_actions: {}'.format(num_legal_actions))
-        print('legal_actions: {}'.format(legal_actions))
-        print('NaN counter: {}'.format(nanCounter))
-        for i in range(len(sample_policy)):
-            sample_policy[i] = 1.0/len(sample_policy)
-        print('new Policy: {}'.format(sample_policy))
+      sample_policy = (np.ones(num_legal_actions, dtype=np.float64) / num_legal_actions)
     sampled_aidx = np.random.choice(range(num_legal_actions), p=sample_policy)
     state.apply_action(legal_actions[sampled_aidx])
     if cur_player == update_player:
